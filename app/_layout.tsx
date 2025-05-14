@@ -3,8 +3,6 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { useFonts } from 'expo-font';
-import { useAppSettings } from '@/hooks/useAppSettings';
-import { Colors } from '@/constants/theme';
 import {
   NotoSansJP_400Regular,
   NotoSansJP_700Bold,
@@ -18,8 +16,6 @@ import {
 
 export default function RootLayout() {
   useFrameworkReady();
-  const { settings } = useAppSettings();
-  const isDarkMode = settings?.darkMode || false;
 
   const [fontsLoaded, fontError] = useFonts({
     'NotoSansJP-Regular': NotoSansJP_400Regular,
@@ -39,45 +35,13 @@ export default function RootLayout() {
     <>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen 
-          name="list-detail" 
-          options={{ 
-            presentation: 'modal',
-            contentStyle: {
-              backgroundColor: isDarkMode ? Colors.darkBackground : Colors.background,
-            },
-          }} 
-        />
-        <Stack.Screen 
-          name="add-word" 
-          options={{ 
-            presentation: 'modal',
-            contentStyle: {
-              backgroundColor: isDarkMode ? Colors.darkBackground : Colors.background,
-            },
-          }} 
-        />
-        <Stack.Screen 
-          name="edit-word" 
-          options={{ 
-            presentation: 'modal',
-            contentStyle: {
-              backgroundColor: isDarkMode ? Colors.darkBackground : Colors.background,
-            },
-          }} 
-        />
-        <Stack.Screen 
-          name="word-detail" 
-          options={{ 
-            presentation: 'modal',
-            contentStyle: {
-              backgroundColor: isDarkMode ? Colors.darkBackground : Colors.background,
-            },
-          }} 
-        />
+        <Stack.Screen name="list-detail" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="add-word" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="edit-word" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="word-detail" options={{ presentation: 'modal' }} />
         <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style={isDarkMode ? 'light' : 'dark'} />
+      <StatusBar style="auto" />
     </>
   );
 }
