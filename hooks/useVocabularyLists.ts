@@ -23,7 +23,7 @@ export function useVocabularyLists() {
   }, []);
 
   // Create a new list
-  const createList = useCallback(async (name: string, description?: string) => {
+  const createList = useCallback(async (name: string, description?: string): Promise<string | null> => {
     try {
       const newList: VocabularyList = {
         id: Date.now().toString(),
@@ -32,7 +32,7 @@ export function useVocabularyLists() {
         createdAt: Date.now(),
         totalWords: 0,
       };
-      
+
       const updatedLists = [...lists, newList];
       await saveLists(updatedLists);
       setLists(updatedLists);
@@ -97,7 +97,6 @@ export function useVocabularyLists() {
     lists,
     loading,
     error,
-    loadLists,
     createList,
     updateList,
     deleteList,

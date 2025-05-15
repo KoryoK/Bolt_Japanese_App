@@ -12,7 +12,7 @@ import { useAppSettings } from '@/hooks/useAppSettings';
 
 export default function VocabularyListsScreen() {
   const router = useRouter();
-  const { lists, loading } = useVocabularyLists();
+  const { lists, loading, createList } = useVocabularyLists();
   const { settings } = useAppSettings();
   const isDarkMode = settings?.darkMode || false;
   
@@ -36,7 +36,6 @@ export default function VocabularyListsScreen() {
   const handleCreateList = async () => {
     if (newListName.trim() === '') return;
     
-    const { createList } = useVocabularyLists();
     const listId = await createList(newListName.trim(), newListDescription.trim() || undefined);
     
     if (listId) {
@@ -89,6 +88,7 @@ export default function VocabularyListsScreen() {
             placeholderTextColor={secondaryTextColor}
             value={newListName}
             onChangeText={setNewListName}
+            autoFocus
           />
           
           <TextInput
