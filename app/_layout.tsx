@@ -14,6 +14,7 @@ import {
   Inter_700Bold,
 } from '@expo-google-fonts/inter';
 import { useAppSettings } from '@/hooks/useAppSettings';
+import { Colors } from '@/constants/theme';
 
 export default function RootLayout() {
   useFrameworkReady();
