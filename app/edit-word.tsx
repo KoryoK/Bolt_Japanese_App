@@ -8,6 +8,8 @@ import {
   Platform, 
   ScrollView,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -100,99 +102,105 @@ export default function EditWordScreen() {
 
   return (
     <SafeAreaView style={containerStyle}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}
-      >
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          <View style={styles.header}>
-            <TouchableOpacity onPress={() => router.back()}>
-              <ArrowLeft size={24} color={textColor} />
-            </TouchableOpacity>
-            <Text style={[styles.title, { color: textColor }]}>Edit Word</Text>
-            <View style={{ width: 24 }} />
-          </View>
-          
-          <View style={styles.form}>
-            <View style={styles.formField}>
-              <Text style={[styles.label, { color: textColor }]}>Japanese</Text>
-              <TextInput
-                style={[styles.input, { 
-                  color: textColor,
-                  backgroundColor: isDarkMode ? Colors.darkCard : Colors.background,
-                  borderColor: isDarkMode ? Colors.darkBorder : Colors.border,
-                }]}
-                value={japanese}
-                onChangeText={setJapanese}
-                placeholder="Enter Japanese word"
-                placeholderTextColor={secondaryTextColor}
-                autoCorrect={false}
-              />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            <View style={styles.header}>
+              <TouchableOpacity onPress={() => router.back()}>
+                <ArrowLeft size={24} color={textColor} />
+              </TouchableOpacity>
+              <Text style={[styles.title, { color: textColor }]}>Edit Word</Text>
+              <View style={{ width: 24 }} />
             </View>
             
-            <View style={styles.formField}>
-              <Text style={[styles.label, { color: textColor }]}>English</Text>
-              <TextInput
-                style={[styles.input, { 
-                  color: textColor,
-                  backgroundColor: isDarkMode ? Colors.darkCard : Colors.background,
-                  borderColor: isDarkMode ? Colors.darkBorder : Colors.border,
-                }]}
-                value={english}
-                onChangeText={setEnglish}
-                placeholder="Enter English translation"
-                placeholderTextColor={secondaryTextColor}
-                autoCorrect={false}
-              />
+            <View style={styles.form}>
+              <View style={styles.formField}>
+                <Text style={[styles.label, { color: textColor }]}>Japanese</Text>
+                <TextInput
+                  style={[styles.input, { 
+                    color: textColor,
+                    backgroundColor: isDarkMode ? Colors.darkCard : Colors.background,
+                    borderColor: isDarkMode ? Colors.darkBorder : Colors.border,
+                  }]}
+                  value={japanese}
+                  onChangeText={setJapanese}
+                  placeholder="Enter Japanese word"
+                  placeholderTextColor={secondaryTextColor}
+                  autoCorrect={false}
+                  returnKeyType="next"
+                />
+              </View>
+              
+              <View style={styles.formField}>
+                <Text style={[styles.label, { color: textColor }]}>English</Text>
+                <TextInput
+                  style={[styles.input, { 
+                    color: textColor,
+                    backgroundColor: isDarkMode ? Colors.darkCard : Colors.background,
+                    borderColor: isDarkMode ? Colors.darkBorder : Colors.border,
+                  }]}
+                  value={english}
+                  onChangeText={setEnglish}
+                  placeholder="Enter English translation"
+                  placeholderTextColor={secondaryTextColor}
+                  autoCorrect={false}
+                  returnKeyType="next"
+                />
+              </View>
+              
+              <View style={styles.formField}>
+                <Text style={[styles.label, { color: textColor }]}>Notes (Optional)</Text>
+                <TextInput
+                  style={[styles.input, { 
+                    color: textColor,
+                    backgroundColor: isDarkMode ? Colors.darkCard : Colors.background,
+                    borderColor: isDarkMode ? Colors.darkBorder : Colors.border,
+                    height: 100,
+                    textAlignVertical: 'top',
+                  }]}
+                  value={notes}
+                  onChangeText={setNotes}
+                  placeholder="Add notes, context, example sentences..."
+                  placeholderTextColor={secondaryTextColor}
+                  multiline
+                  returnKeyType="done"
+                  onSubmitEditing={Keyboard.dismiss}
+                />
+              </View>
+              
+              <View style={styles.formField}>
+                <Text style={[styles.label, { color: textColor }]}>Difficulty</Text>
+                <DifficultySelector
+                  value={difficulty}
+                  onChange={setDifficulty}
+                  darkMode={isDarkMode}
+                />
+              </View>
+              
+              <View style={styles.buttonRow}>
+                <Button
+                  title="Cancel"
+                  onPress={() => router.back()}
+                  variant="outline"
+                  style={styles.button}
+                  darkMode={isDarkMode}
+                />
+                <Button
+                  title="Save Changes"
+                  onPress={handleSaveWord}
+                  disabled={!japanese.trim() || !english.trim() || isSaving}
+                  loading={isSaving}
+                  style={styles.button}
+                  darkMode={isDarkMode}
+                />
+              </View>
             </View>
-            
-            <View style={styles.formField}>
-              <Text style={[styles.label, { color: textColor }]}>Notes (Optional)</Text>
-              <TextInput
-                style={[styles.input, { 
-                  color: textColor,
-                  backgroundColor: isDarkMode ? Colors.darkCard : Colors.background,
-                  borderColor: isDarkMode ? Colors.darkBorder : Colors.border,
-                  height: 100,
-                  textAlignVertical: 'top',
-                }]}
-                value={notes}
-                onChangeText={setNotes}
-                placeholder="Add notes, context, example sentences..."
-                placeholderTextColor={secondaryTextColor}
-                multiline
-              />
-            </View>
-            
-            <View style={styles.formField}>
-              <Text style={[styles.label, { color: textColor }]}>Difficulty</Text>
-              <DifficultySelector
-                value={difficulty}
-                onChange={setDifficulty}
-                darkMode={isDarkMode}
-              />
-            </View>
-            
-            <View style={styles.buttonRow}>
-              <Button
-                title="Cancel"
-                onPress={() => router.back()}
-                variant="outline"
-                style={styles.button}
-                darkMode={isDarkMode}
-              />
-              <Button
-                title="Save Changes"
-                onPress={handleSaveWord}
-                disabled={!japanese.trim() || !english.trim() || isSaving}
-                loading={isSaving}
-                style={styles.button}
-                darkMode={isDarkMode}
-              />
-            </View>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }
