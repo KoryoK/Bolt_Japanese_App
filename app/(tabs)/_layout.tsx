@@ -14,9 +14,19 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: isDarkMode ? Colors.darkCard : Colors.background,
           borderTopColor: isDarkMode ? Colors.darkBorder : Colors.border,
+          borderTopWidth: 1,
+          elevation: 0,
+          shadowOpacity: 0,
+          height: 60,
+          paddingBottom: 8,
+          paddingTop: 8,
         },
         tabBarActiveTintColor: isDarkMode ? Colors.primaryLight : Colors.primary,
         tabBarInactiveTintColor: isDarkMode ? Colors.darkTextSecondary : Colors.textSecondary,
+        tabBarLabelStyle: {
+          fontFamily: 'Inter-Medium',
+          fontSize: 12,
+        },
       }}>
       <Tabs.Screen
         name="index"
