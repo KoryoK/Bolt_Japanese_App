@@ -9,6 +9,7 @@ import {
   FlatList,
   SafeAreaView,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useVocabularyWords } from '@/hooks/useVocabularyWords';
 import { useAppSettings } from '@/hooks/useAppSettings';
 import { Colors, Spacing, Typography, CommonStyles } from '@/constants/theme';
@@ -23,7 +24,8 @@ import { getWordsForReview, sortWordsByStudyPriority, getDifficultWords } from '
 import { useIsFocused } from '@react-navigation/native';
 
 export default function StudyScreen() {
-  const { words, loading, reviewWord } = useVocabularyWords();
+  const router = useRouter();
+  const { words, loading } = useVocabularyWords();
   const { settings } = useAppSettings();
   const isDarkMode = settings?.darkMode || false;
   const isFocused = useIsFocused();
@@ -41,7 +43,7 @@ export default function StudyScreen() {
   const containerStyle = isDarkMode ? CommonStyles.darkContainer : CommonStyles.container;
   const textColor = isDarkMode ? Colors.darkText : Colors.text;
   const secondaryTextColor = isDarkMode ? Colors.darkTextSecondary : Colors.textSecondary;
-  
+
   // Reset study state when the tab comes into focus
   useEffect(() => {
     if (isFocused) {
@@ -81,8 +83,6 @@ export default function StudyScreen() {
   const handleReviewWord = async (difficulty: DifficultyLevel) => {
     const currentWord = wordsToStudy[currentIndex];
     setSelectedDifficulty(difficulty);
-    
-    await reviewWord(currentWord.id, difficulty);
     
     // Animate card swiping out
     Animated.timing(swipeAnimationValue, {
@@ -174,7 +174,7 @@ export default function StudyScreen() {
           title="No Words to Study"
           description="Add some vocabulary words to start studying."
           buttonTitle="Add Words"
-          onButtonPress={() => {/* Navigate to add words */}}
+          onButtonPress={() => router.push('/add-word')}
           icon={<BookOpen size={48} color={isDarkMode ? Colors.primaryLight : Colors.primary} />}
           darkMode={isDarkMode}
         />
