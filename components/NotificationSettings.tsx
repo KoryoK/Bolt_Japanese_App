@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Switch, TouchableOpacity, Platform } from 'react-native';
+import Slider from '@react-native-community/slider';
 import { NotificationSettings as NotificationSettingsType } from '../types';
 import { Colors, Spacing, Typography } from '../constants/theme';
 
@@ -18,11 +19,7 @@ export function NotificationSettingsComponent({
   const secondaryTextColor = darkMode ? Colors.darkTextSecondary : Colors.textSecondary;
   const backgroundColor = darkMode ? Colors.darkCard : Colors.card;
   
-  const intervalOptions = [
-    { label: '30 minutes', value: 30 },
-    { label: '1 hour', value: 60 },
-    { label: '1 day', value: 1440 },
-  ];
+  const [sliderValue, setSliderValue] = useState(settings.interval);
 
   const handleToggleEnabled = () => {
     onSettingsChange({
@@ -38,10 +35,26 @@ export function NotificationSettingsComponent({
     });
   };
 
-  const handleIntervalChange = (interval: 30 | 60 | 1440) => {
+  const formatIntervalText = (minutes: number) => {
+    if (minutes < 60) {
+      return `${minutes} minutes`;
+    } else if (minutes === 60) {
+      return '1 hour';
+    } else if (minutes < 1440) {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      return `${hours}h ${remainingMinutes}m`;
+    } else {
+      const days = Math.floor(minutes / 1440);
+      const hours = Math.floor((minutes % 1440) / 60);
+      return `${days}d ${hours}h`;
+    }
+  };
+
+  const handleSliderComplete = (value: number) => {
     onSettingsChange({
       ...settings,
-      interval,
+      interval: Math.round(value),
     });
   };
 
@@ -63,32 +76,24 @@ export function NotificationSettingsComponent({
             <Text style={[styles.sectionTitle, { color: secondaryTextColor }]}>
               Review Interval
             </Text>
-            <View style={styles.optionsContainer}>
-              {intervalOptions.map((option) => (
-                <TouchableOpacity
-                  key={option.value}
-                  style={[
-                    styles.intervalOption,
-                    settings.interval === option.value && 
-                    { backgroundColor: darkMode ? Colors.primaryDark : Colors.primaryLight },
-                  ]}
-                  onPress={() => handleIntervalChange(option.value as 30 | 60 | 1440)}
-                >
-                  <Text
-                    style={[
-                      styles.intervalText,
-                      {
-                        color:
-                          settings.interval === option.value
-                            ? '#FFFFFF'
-                            : textColor,
-                      },
-                    ]}
-                  >
-                    {option.label}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+            <Text style={[styles.intervalValue, { color: textColor }]}>
+              {formatIntervalText(sliderValue)}
+            </Text>
+            <Slider
+              style={styles.slider}
+              minimumValue={5}
+              maximumValue={2880} // 2 days in minutes
+              step={5}
+              value={settings.interval}
+              onValueChange={setSliderValue}
+              onSlidingComplete={handleSliderComplete}
+              minimumTrackTintColor={darkMode ? Colors.primaryLight : Colors.primary}
+              maximumTrackTintColor={darkMode ? Colors.darkBorder : Colors.border}
+              thumbTintColor={darkMode ? Colors.primaryLight : Colors.primary}
+            />
+            <View style={styles.sliderLabels}>
+              <Text style={[styles.sliderLabel, { color: secondaryTextColor }]}>5m</Text>
+              <Text style={[styles.sliderLabel, { color: secondaryTextColor }]}>2d</Text>
             </View>
           </View>
           
@@ -137,21 +142,22 @@ const styles = StyleSheet.create({
     ...Typography.footnote,
     marginBottom: Spacing.s,
   },
-  optionsContainer: {
+  intervalValue: {
+    ...Typography.title3,
+    textAlign: 'center',
+    marginBottom: Spacing.m,
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+  },
+  sliderLabels: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: -Spacing.s,
   },
-  intervalOption: {
-    paddingVertical: Spacing.s,
-    paddingHorizontal: Spacing.m,
-    borderRadius: 20,
-    marginRight: Spacing.s,
-    marginBottom: Spacing.s,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  intervalText: {
-    ...Typography.subhead,
+  sliderLabel: {
+    ...Typography.caption1,
   },
   optionTitle: {
     ...Typography.subhead,

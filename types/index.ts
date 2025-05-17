@@ -22,7 +22,7 @@ export interface VocabularyWord {
 
 export interface NotificationSettings {
   enabled: boolean;
-  interval: 30 | 60 | 1440; // in minutes (30min, 1hr, 1day)
+  interval: number; // in minutes
   focusOnDifficult: boolean;
 }
 
