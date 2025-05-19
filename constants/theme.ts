@@ -171,17 +171,15 @@ export const CommonStyles = StyleSheet.create({
     backgroundColor: Colors.darkBorder,
     marginVertical: Spacing.s,
   },
-  // New modern styles
+  // Modern styles
   glass: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    backdropFilter: 'blur(12px)',
     borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   darkGlass: {
     backgroundColor: 'rgba(30, 41, 59, 0.8)',
-    backdropFilter: 'blur(12px)',
     borderRadius: 16,
     borderWidth: 1,
     borderColor: 'rgba(51, 65, 85, 0.3)',
