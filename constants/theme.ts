@@ -171,7 +171,6 @@ export const CommonStyles = StyleSheet.create({
     backgroundColor: Colors.darkBorder,
     marginVertical: Spacing.s,
   },
-  // Modern styles
   glass: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     borderRadius: 16,
