@@ -3,45 +3,45 @@ import { StyleSheet } from 'react-native';
 // Color system
 export const Colors = {
   // Primary
-  primary: '#6366F1', // Modern indigo
+  primary: '#6366F1',
   primaryLight: '#818CF8',
   primaryDark: '#4F46E5',
-  
+
   // Accent
-  accent: '#F43F5E', // Modern rose
+  accent: '#F43F5E',
   accentLight: '#FB7185',
   accentDark: '#E11D48',
-  
+
   // Success
-  success: '#10B981', // Modern emerald
+  success: '#10B981',
   successLight: '#34D399',
   successDark: '#059669',
-  
+
   // Warning
-  warning: '#F59E0B', // Modern amber
+  warning: '#F59E0B',
   warningLight: '#FBBF24',
   warningDark: '#D97706',
-  
+
   // Error
-  error: '#EF4444', // Modern red
+  error: '#EF4444',
   errorLight: '#F87171',
   errorDark: '#DC2626',
-  
+
   // Neutral
   background: '#FFFFFF',
-  card: '#F8FAFC', // Modern slate-50
-  border: '#E2E8F0', // Modern slate-200
-  text: '#0F172A', // Modern slate-900
-  textSecondary: '#475569', // Modern slate-600
-  textTertiary: '#94A3B8', // Modern slate-400
-  
+  card: '#F8FAFC',
+  border: '#E2E8F0',
+  text: '#0F172A',
+  textSecondary: '#475569',
+  textTertiary: '#94A3B8',
+
   // Dark mode
-  darkBackground: '#0F172A', // Modern slate-900
-  darkCard: '#1E293B', // Modern slate-800
-  darkBorder: '#334155', // Modern slate-700
-  darkText: '#F8FAFC', // Modern slate-50
-  darkTextSecondary: '#CBD5E1', // Modern slate-300
-  darkTextTertiary: '#94A3B8', // Modern slate-400
+  darkBackground: '#0F172A',
+  darkCard: '#1E293B',
+  darkBorder: '#334155',
+  darkText: '#F8FAFC',
+  darkTextSecondary: '#CBD5E1',
+  darkTextTertiary: '#94A3B8',
 };
 
 // Spacing system (based on 8px)
