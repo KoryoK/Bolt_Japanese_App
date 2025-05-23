@@ -30,14 +30,24 @@ export default function RootLayout() {
     'Inter-Bold': Inter_700Bold,
   });
 
+  // Prevent rendering until fonts are loaded
   if (!fontsLoaded && !fontError) {
     return null;
   }
 
   return (
     <>
-      <Stack>
+      <Stack screenOptions={{ 
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: isDarkMode ? Colors.darkBackground : Colors.background,
+        },
+      }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="list-detail" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="add-word" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="edit-word" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="word-detail" options={{ presentation: 'modal' }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style={isDarkMode ? 'light' : 'dark'} />
